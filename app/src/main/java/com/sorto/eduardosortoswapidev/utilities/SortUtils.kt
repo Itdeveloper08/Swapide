@@ -1,0 +1,193 @@
+package com.sorto.eduardosortoswapidev.utilities
+
+import java.util.ArrayList
+import java.util.Comparator
+
+import com.sorto.eduardosortoswapidev.models.Film
+import com.sorto.eduardosortoswapidev.models.SWModel
+import com.sorto.eduardosortoswapidev.models.Starship
+
+/**
+ * Sorting utilities
+ */
+object SortUtils {
+
+
+
+    fun sortFilmsByEpisode(list: ArrayList<Film>): ArrayList<Film> {
+
+        list.sortWith(Comparator { o1, o2 -> o1.episodeId - o2.episodeId })
+
+        return list
+    }
+
+
+    fun sortSWModelByEpisode(list: ArrayList<SWModel>): ArrayList<SWModel> {
+
+        list.sortWith(Comparator { o1, o2 -> (o1 as Film).episodeId - (o2 as Film).episodeId })
+
+        return list
+    }
+
+
+
+    fun sortForBestQueryMatch(list: ArrayList<SWModel>, query: String): ArrayList<SWModel> {
+
+        val sortedList = ArrayList<SWModel>()
+        val explicitList = ArrayList<SWModel>()
+        val postExplicitList = ArrayList<SWModel>()
+        val containList = ArrayList<SWModel>()
+        val postContainList = ArrayList<SWModel>()
+
+
+        // Alphabetize for base hierarchy
+        list.sortWith(Comparator { s1, s2 -> s1.title.compareTo(s2.title, ignoreCase = true) })
+
+
+        // get titles that match explicit query
+
+        for (model in list) {
+
+            var hasMatch = false
+            val arr = model.title.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+            for (ss in arr) {
+                if (ss.toLowerCase() == query.toLowerCase()) {
+                    hasMatch = true
+                    break
+                }
+            }
+
+            if (hasMatch) {
+                explicitList.add(model)
+            } else {
+                postExplicitList.add(model)
+            }
+        }
+
+        // sort based on position
+        if (explicitList.size > 0) {
+
+            explicitList.sortWith(Comparator { str1, str2 ->
+                val index1 = str1.title.toLowerCase().indexOf(query.toLowerCase())
+                val index2 = str2.title.toLowerCase().indexOf(query.toLowerCase())
+
+                index1 - index2
+            })
+
+            sortedList.addAll(explicitList)
+        }
+
+        if (postExplicitList.size == 0)
+            return sortedList
+
+
+        // get titles that contain query
+        for (model in postExplicitList) {
+            if (model.title.toLowerCase().contains(query.toLowerCase())) {
+                containList.add(model)
+            } else {
+                postContainList.add(model)
+            }
+        }
+
+        // sort based on position
+        if (containList.size > 0) {
+            containList.sortWith(Comparator { str1, str2 ->
+                val index1 = str1.title.toLowerCase().indexOf(query.toLowerCase())
+                val index2 = str2.title.toLowerCase().indexOf(query.toLowerCase())
+                index1 - index2
+            })
+
+            sortedList.addAll(containList)
+        }
+
+        if (postContainList.size == 0)
+            return sortedList
+
+        // Special case for Starships
+        // Swapi search results also return matching Starship.model items
+        if (list[0] is Starship) {
+            val extras = sortForStarships(postContainList, query)
+            sortedList.addAll(extras)
+        }
+
+        return sortedList
+    }
+
+
+
+    private fun sortForStarships(list: ArrayList<SWModel>, query: String): ArrayList<SWModel> {
+
+        val newList = ArrayList<SWModel>()
+
+        val explicitList = ArrayList<SWModel>()
+        val postExplicitList = ArrayList<SWModel>()
+
+        val containList = ArrayList<SWModel>()
+        val postContainList = ArrayList<SWModel>()
+
+
+        // get Starship models that have explicit query word
+        for (model in list) {
+
+            var hasMatch = false
+            val arr = (model as Starship).model.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+            for (ss in arr) {
+                if (ss.toLowerCase() == query.toLowerCase()) {
+                    hasMatch = true
+                    break
+                }
+            }
+
+            if (hasMatch) {
+                explicitList.add(model)
+            } else {
+                postExplicitList.add(model)
+            }
+        }
+
+        // sort based on position
+        if (explicitList.size > 0) {
+            explicitList.sortWith(Comparator { str1, str2 ->
+                val index1 = (str1 as Starship).model.toLowerCase().indexOf(query.toLowerCase())
+                val index2 = (str2 as Starship).model.toLowerCase().indexOf(query.toLowerCase())
+                index1 - index2
+            })
+
+            newList.addAll(explicitList)
+        }
+
+        if (postExplicitList.size == 0)
+            return newList
+
+
+        // get titles that contain query
+        for (model in postExplicitList) {
+            if ((model as Starship).model.toLowerCase().contains(query.toLowerCase())) {
+                containList.add(model)
+            } else {
+                postContainList.add(model)
+            }
+        }
+
+        // sort based on position
+        if (containList.size > 0) {
+            containList.sortWith(Comparator { str1, str2 ->
+                val index1 = (str1 as Starship).model.toLowerCase().indexOf(query.toLowerCase())
+                val index2 = (str2 as Starship).model.toLowerCase().indexOf(query.toLowerCase())
+                index1 - index2
+            })
+
+            newList.addAll(containList)
+        }
+
+        if (postContainList.size == 0)
+            return newList
+
+        // add remaining items
+        newList.addAll(postContainList)
+        return newList
+    }
+}

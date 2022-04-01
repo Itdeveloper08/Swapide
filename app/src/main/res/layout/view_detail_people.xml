@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/detail_padding"
+    android:paddingRight="@dimen/detail_padding"
+    android:paddingBottom="48dp">
+
+    <LinearLayout style="@style/LinearLayout.DetailRow"
+        android:weightSum="2">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/homeworld" />
+
+                <TextView
+                    android:id="@+id/homeworld"
+                    style="@style/TextView.DetailItem.Clickable" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/species" />
+
+                <TextView
+                    android:id="@+id/species"
+                    style="@style/TextView.DetailItem.Clickable" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/LinearLayout.DetailRow"
+        android:weightSum="3">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/dob" />
+
+                <TextView
+                    android:id="@+id/dob"
+                    style="@style/TextView.DetailItem" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/height" />
+
+                <TextView
+                    android:id="@+id/person_height"
+                    style="@style/TextView.DetailItem" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/mass" />
+
+                <TextView
+                    android:id="@+id/mass"
+                    style="@style/TextView.DetailItem" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/LinearLayout.DetailRow"
+        android:weightSum="3">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+                    android:text="@string/gender" />
+
+                <TextView
+                    android:id="@+id/gender"
+                    style="@style/TextView.DetailItem" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+
+                    android:text="@string/hair_color" />
+
+                <TextView
+                    android:id="@+id/hair_color"
+                    style="@style/TextView.DetailItem" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Card.DetailItem"
+            android:layout_weight="1">
+
+            <LinearLayout style="@style/LinearLayout.DetailItem">
+
+                <TextView
+                    style="@style/TextView.Overline.DetailItem"
+
+                    android:text="@string/skin_color" />
+
+                <TextView
+                    android:id="@+id/skin_color"
+                    style="@style/TextView.DetailItem" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</LinearLayout>
